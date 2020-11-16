@@ -11,6 +11,8 @@ The game An Adventurer is a basic text-based game that will present the player w
 - MySQL database containing all user scores.
 - Web server build with Node and Express.
 - Built and stylized with JavaScript, HTML, and CSS.
+## Current State of Application Development
+I have been playing catch-up for most of this class as I have no experience in Javascript, HTML, CSS, Vscode, Github, and basically everything we are doing. So I know I have not implemented much, and any help would be appreciated, but I must admit, this project has kind of creeped up on me so I know I am behind.
 
 
 
