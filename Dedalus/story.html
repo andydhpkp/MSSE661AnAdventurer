@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DedalusWeb Story</title>
+
+    <script src="http://olado.github.io/doT/doT.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="dedalus.js"></script>
+    <script src="dedalus-web.js"></script>
+
+    <link rel="stylesheet" href="themes/plain/story.css">
+
+ </head>
+<body>
+    <div id="story">
+
+        <initscript>
+        </initscript>
+
+        <beforeEveryThing>
+        </beforeEveryThing>
+
+        <beforeEveryPageTurn>
+        </beforeEveryPageTurn>
+
+        <beforeEveryParagraphShown>
+        </beforeEveryParagraphShown>
+
+        <afterEveryThing>
+        </afterEveryThing>
+
+        <afterEveryPageTurn>
+        </afterEveryPageTurn>
+
+        <afterEveryParagraphShown>
+        </afterEveryParagraphShown>
+
+        <!-- Novel -->
+        <title>A Fortunate Stroll</title>
+
+        <!-- Objects -->
+        <obj id="dummyObject" inventoryName="An object">
+            <action id="Examine">
+                Something happens... who knows what?!
+            </action>
+
+            <action id="Get">
+                <when>!story.isInInventory('dummyObject')</when>
+                As you try to get it... It is clear that the inventory works!
+                {{ story.putInInventory('dummyObject'); }}
+            </action>
+
+        </obj>
+
+        <object id="heroNote" inventoryName="Note of the fallen hero">
+
+        </object>
+
+        <object id="sword" inventoryName="Sword of the fallen hero">
+
+        </object>
+
+        <object id="largeKey" inventoryName="Large brass key">
+
+        </object>
+
+        <object id="smallKey" inventoryName="Small key">
+
+        </object>
+
+        <!-- Pages -->
+        <page id="intro">
+            Hello adventurer! This may be your first time around these parts, so move forward with caution because we do not want you to get lost, or worse! If at any point in the game, you cannot click on an option, you may be missing a crucial item!
+        </page>
+
+        <page id="firstThing" class="first">
+            <p>You are taking an ordinary stroll through the woods when you come across a note nailed to a tree.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="treeNote">Read the note.</turn></p>
+            <p><show paragraph="firstFail">Keep walking.</turn></p> 
+
+            <paragraph id="firstFail">
+                You keep on walking when out of nowhere a massive troll steps in your way, and with a quick kick, you are defeated.
+                {{ story.endGame();}}
+            </paragraph>
+        </page>
+
+        <page id="treeNote">
+            <p>"WARNING! TROLL ON THE LOOSE! IF YOU ARE READING THIS, HIDE!"</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="hide">Hide!</turn></p>
+            <p><show paragraph="ignoreFail">Assume the note is a joke, and ignore.</turn></p> 
+            <p><show paragraph="ignoreFail">Turn back the way you came.</turn></p>
+
+            <paragraph id="ignoreFail">
+                You keep on walking when out of nowhere a massive troll steps in your way, and with a quick kick, you are defeated.
+                {{ story.endGame();}}
+            </paragraph>
+        </page>
+
+        <page id="hide">
+            <p>As you dive underneath a nearby bush, you hear the footsteps of a massive troll walk right where you just were, that was close!</p> 
+            <p>Now that you understand the severity of the situation, what would you like to do?</p>
+            <p><turn to="search">Search near you.</turn></p>
+            <p><show paragraph="searchSneakFail">Sneak up on the troll.</turn></p> 
+            <p><show paragraph="searchYellFail">Call for help.</turn></p>
+            <p><show paragraph="runAwayFail">Run away from the troll.</turn></p>
+
+            <paragraph id="searchSneakFail">
+                Nice try, with no weapon the troll made short work of you!
+                {{ story.endGame();}}
+            </paragraph>
+
+            <paragraph id="searchYellFail">
+                You should not have done that, you called for help and the troll came and stomped on you!
+                {{ story.endGame();}}
+            </paragraph>
+
+            <paragraph id="runAwayFail">
+                You should not have done that, even running the opposite way, the troll easily caught up and grabbed you for a snack!
+                {{ story.endGame();}}
+            </paragraph>
+        </page>
+
+        <page id="search">
+            <p>Where would you like to search?</p>
+            <p><turn to="searchBushes">Search the surrounding bushes.</turn></p>
+            <p><show paragraph="searchTreeFail">Search up the tree with the note.</turn></p> 
+            <p><show paragraph="searchDirtFail">Search the dirt.</turn></p>
+            <p><show paragraph="searchSomewhereElseFail">Search somehwere else.</turn></p>
+
+            <paragraph id="searchTreeFail">
+                Great job trying to climb the tree, but unfortunately you are not much of a climber and are unable to climb the tree.
+            </paragraph>
+
+            <paragraph id="searchDirtFail">
+                You dig up the dirt, and find nothing but worms.
+            </paragraph>
+
+            <paragraph id="searchSomewhereElseFail">
+                As you walk out to find a new place to search, that clumsy troll comes out and snatches you!
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <!--//inventory for note and sword//maybe work on show vs turn for note and sword//-->
+        <page id="searchBushes">
+            <p>As you sift through the bushes, you come across a fallen hero clutching a note and a sword.</p> 
+            <p>What would you like to do?</p>
+            <p><show paragraph="readHeroNote">Take the Hero's note.</turn></p>
+            <p><turn to="takeSword">Take the Hero's sword.</turn></p> 
+            <p><show paragraph="pokeHeroFail">Poke the Hero.</turn></p>
+            <p><show paragraph="hideHeroFail">Hide underneath the Hero.</turn></p>
+
+            <paragraph id="pokeHeroFail">
+                You disgracefully poke this fallen hero, shame on you.
+            </paragraph>
+
+            <paragraph id="hideHeroFail">
+                You disgracefully attempt to use this fallen person as a hiding place, disgraceful.
+            </paragraph>
+
+        </page>
+
+        <!--//might need to change this to continue the story//maybe do if havex then show y (this means make a page and paragraph of each possibility)-->
+        <paragraph id="readHeroNote">
+            {{ story.putInInventory('heroNote')}}
+            "The treasure is in the Troll's cave on the other side of the lake, but the cave is locked!"
+        </paragraph>
+
+        <!--//moveToLake option before the troll should still be possible-->
+        <page id="takeSword">
+            {{ story.putInInventory('sword'); }}
+            <p>Now you are looking prepared!</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="moveToLake">Move to the Lake.</turn></p>
+            <p><turn to="moveToTroll">Move to the Troll.</turn></p> 
+            <p><show paragraph="climbTreeFail">Climb the tree for a better view.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="climbTreeFail">
+                Great job trying to climb the tree, but unfortunately you are not much of a climber and are unable to climb the tree.
+            </paragraph>
+
+        </page>
+
+        <page id="moveToLake">
+            <p>As you search for the Lake, you notice a strange smell that you assume is dangerous, so you take a wide berth until you happen upon the lake.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="searchTheLake">Search for a way across the lake.</turn></p>
+            <p><turn to="takeSword">Go back the way you came.</turn></p> 
+            <p><show paragraph="walkAroundTheLakeFail">Continue to walk around the lake.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="walkAroundTheLakeFail">
+                As you do your best to make the incredibly lengthy walk around the lake, you start to get tired and fall from exhaustion.
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <page id="moveToTroll">
+            <p>Lucky for you, following your nose points you in the correct direction of the troll. Eventually, you see the big guy soaking his feet in a lake 50 yards in front of you.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="duelTroll">Call to the troll, remembering your dueling manners.</turn></p>
+            <p><show paragraph="sneakUpFail">Sneak up on the troll and attack.</turn></p> 
+            <p><show paragraph="throwSwordFail">Throw your sword at the troll.</turn></p>
+            <p><show paragraph="befriendFail">Attempt to befriend the troll.</turn></p>
+
+            <paragraph id="sneakUpFail">
+                You sneak up on the troll, but unfortunately the troll was expecting something like this to happen, and he quickly defeats you.
+                {{ story.endGame();}}
+            </paragraph>
+
+            <paragraph id="throwSwordFail">
+                You throw the sword in the direction of the troll, but it falls very short. The troll turns and laughs at you before capturing you.
+                {{ story.endGame();}}
+            </paragraph>
+
+            <paragraph id="befriendFail">
+                You call out to the troll with the intent to befriend him, but he has no desire to be your friend. Instead, he makes a quick snack out of you.
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <page id="duelTroll">
+            <p>The troll turns around at your duel declaration with surprising speed, already on alert. When he is turned around, you notice what appears to be a fresh wound on his belly.</p> 
+            <p>He charges!</p>
+            <p><turn to="throwSwordSuccess">Throw sword at troll.</turn></p>
+            <p><show paragraph="dodgeFail">Dodge out of the way.</turn></p> 
+            <p><show paragraph="talkDownFail">Calm down the troll.</turn></p>
+            <p><show paragraph="runFail">Run away!</turn></p>
+
+            <paragraph id="dodgeFail">
+                You dive out of the way, but unfortunately you have never been super quick, and the troll easily defeats you.
+                {{ story.endGame();}}
+            </paragraph>
+
+            <paragraph id="talkDownFail">
+                You foolishly attempt to charm the troll, but it obviously does not work and he defeats you.
+                {{ story.endGame();}}
+            </paragraph>
+
+            <paragraph id="runFail">
+                You try to run in the opposite direction, but the troll is clearly faster than you and catches you.
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <!--//can move forward without doing the other//-->
+        <page id="throwSwordSuccess">
+            <p>In a panic, you throw the sword with surprising grace and accuracy, striking the troll in his fresh wound. He is defeated.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="searchPockets">Search the troll's pockets.</turn></p>
+            <p><turn to="searchBag">Search the troll's bad.</turn></p> 
+            <p><show paragraph="roarFail">Celebrate your victory with a primal roar.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="roarFail">
+                You foolishly celebrate your victory with a loud roar, which attracts monsters of all kinds to come out of surrounding area, you are lunch meat.
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <page id="searchPockets">
+            {{ story.putInInventory('largeKey'); }}
+            <p>You find a large brass key. It appears to be a key to some large door.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="leaveTroll">Leave the troll.</turn></p>
+            <p><turn to="searchBag">Search the troll's bag.</turn></p> 
+            <p><show paragraph="roarFail">Celebrate your victory with a primal roar.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="roarFail">
+                You foolishly celebrate your victory with a loud roar, which attracts monsters of all kinds to come out of surrounding area, you are lunch meat.
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <page id="searchBag">
+            {{ story.putInInventory('smallKey'); }}
+            <p>After sifting through some animal remains and tree branches, you find a small flap containing what would be to the troll, a very small key.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="searchPockets">Search the troll's pockets.</turn></p>
+            <p><turn to="leaveTroll">Leave the troll.</turn></p>
+            <p><show paragraph="roarFail">Celebrate your victory with a primal roar.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="roarFail">
+                You foolishly celebrate your victory with a loud roar, which attracts monsters of all kinds to come out of surrounding area, you are lunch meat.
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <page id="leaveTroll">
+            <p>Well that was exciting, but now what would you like to do?</p>
+            <p><turn to="searchTheLake">Search for a way across the lake.</turn></p>
+            <p><turn to="takeSword">Go back the way you came.</turn></p> 
+            <p><show paragraph="walkAroundTheLakeFail">Walk around the lake.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="walkAroundTheLakeFail">
+                As you do your best to make the incredibly lengthy walk around the lake, you start to get tired and fall from exhaustion.
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <page id="searchTheLake">
+            <p>Near the edge of the Lake, there is a small boat with oars.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="boatCross">Use the boat to cross the lake.</turn></p>
+            <p><show paragraph="keepSearchingFail">Keep searching.</turn></p>
+            <p><show paragraph="swimFail">Swim across the lake.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="keepSearchingFail">
+                You keep searching, despite the boat being the clear best choice to travel across the lake. You do not find anything else.
+            </paragraph>
+
+            <paragraph id="swimFail">
+                While you have always prided yourself on your swimming ability, your decision to ignore the boat and swim was dumb, you drown.
+                {{ story.endGame();}}
+            </paragraph>
+
+        </page>
+
+        <page id="boatCross">
+            <p>You use the boat to cross the lake with surprising ease. Upon leaving the boat, you see a large wooden door blocking the entrance to a cave.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="openDoor">Open the door.</turn></p>
+            <p><show paragraph="knockDoorFail">Knock on the door.</turn></p>
+            <p><show paragraph="searchAreaFail">Search the area.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="knockDoorFail">
+                After knocking, you hear no response
+            </paragraph>
+
+            <paragraph id="searchAreaFail">
+                You search the surrounding area, but you find nothing of note.
+            </paragraph>
+
+        </page>
+
+        <!--//need an if have key then give two key options-->
+        <page id="openDoor">
+            <p>It is locked.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="useLargeKey">Use large key to unlock the door.</turn></p>
+            <p><show paragraph="useSmallKeyFail">Use small key to unlock the door.</turn></p>
+            <p><turn to="goBack">Go back across the Lake.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="useSmallKeyFail">
+                The key is far too small to be used on this door!
+            </paragraph>
+
+        </page>
+
+        <page id="goBack">
+            <p>It is locked.</p> 
+            <p>What would you like to do?</p>
+
+
+<!--//if statement for if the troll has been killed//maybe have two separate goBacks-->
+<page id="goBackDeadTroll">
+    <p>You use the boat to go back across the lake. The only thing of note is the defeated troll</p> 
+    <p>What would you like to do?</p>
+    <p><turn to="searchPockets">Search the troll's pockets.</turn></p>
+    <p><turn to="searchBag">Search the troll's bag.</turn></p> 
+    <p><show paragraph="roarFail">Celebrate your victory with a primal roar.</turn></p>
+    <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+</page>
+
+<page id="goBackLiveTroll">
+    <p>You use the boat to go back across the lake. The only thing of note is the troll from earlier, but luckily you find a place far from him to exit your boat, and you are about 50 yards from his back.</p> 
+    <p>What would you like to do?</p>
+    <p><turn to="duelTroll">Call to the troll, remembering your dueling manners.</turn></p>
+    <p><show paragraph="sneakUpFail">Sneak up on the troll and attack.</turn></p> 
+    <p><show paragraph="throwSwordFail">Throw your sword at the troll.</turn></p>
+    <p><show paragraph="befriendFail">Attempt to befriend the troll.</turn></p>
+</page>
+
+
+            <p><turn to="useLargeKey">Use large key to unlock the door.</turn></p>
+            <p><show paragraph="useSmallKeyFail">Use small key to unlock the door.</turn></p>
+            <p><show paragraph="goBack">Go back across the Lake.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+        </page>
+
+        <page id="useLargeKey">
+            <p>As you open the door, the sun shines on a small treasure chest.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="openTheChest">Open the chest.</turn></p>
+            <p><show paragraph="searchCaveFail">Search the cave.</turn></p>
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="searchCaveFail">
+                Surprisingly, the cave has nothing else of note.
+            </paragraph>
+
+        </page>
+
+        <!--//same if statement if they dont have key-->
+        <page id="openTheChest">
+            <p>It is locked.</p> 
+            <p>What would you like to do?</p>
+            <p><turn to="useSmallKey">Use small key to unlock the chest.</turn></p>
+            <p><show paragraph="useLargeKeyFail">Use large key to unlock the chest.</turn></p>
+<!--connect this goBack with the dead trolls-->
+            <p><show paragraph="goBack">Go back across the Lake.</turn></p>
+
+            <p><show paragraph="readHeroNote">Read the Hero's note.</turn></p>
+
+            <paragraph id="useLargeKeyFail">
+                This key is far too large for this chest.
+            </paragraph>
+
+        </page>
+
+        <page id="useSmallKey">
+            <p>Congratulations adventurer! The treasure is yours!</p>
+            {{ story.endGame();}}
+        </page>
+
+    </div>
+
+    <div id="wrapper">
+        <div id="title"></div>
+
+        <div id="inventoryHostWrapper">
+            <h2>Inventory</h2>
+            <div id="inventoryHost"></div>
+        </div>
+
+        <div id="host"></div>
+    </div>
+
+    <div id="interactionHost"></div>
+
+    <div id="undoStageHost"></div>
+
+    <div id="footer">
+        <a id="undoHost" href="#">Undo</a> &bull; <a id="saveHost" href="#">Save</a> &bull; <a id="restoreHost" href="#">Restore</a> &bull; <a id="reseteHost" href="#">Reset</a>
+    </div>
+
+    <script>
+        $(function () {
+            new DedalusWeb({
+                domSource         : $('#story'),
+                domTarget         : $('#host'),
+                titleTarget       : $('#title'),
+                inventoryTarget   : $('#inventoryHost'),
+                interactionTarget : $('#interactionHost'),
+                undoTarget        : $('#undoHost'),
+                undoStageTarget   : $('#undoStageHost'),
+                saveTarget        : $('#saveHost'),
+                restoreTarget     : $('#restoreHost'),
+                resetTarget       : $('#reseteHost'),
+            });
+        });
+
+    </script>
+</body>
+</html>
