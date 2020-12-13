@@ -17,6 +17,7 @@
 
         <initscript>
             story.trollDefeated = false;
+            story.score = 0;
         </initscript>
 
         <title>A Fortunate Stroll</title>
@@ -399,7 +400,8 @@
 
         <page id="useSmallKey">
             <p>Congratulations adventurer! The treasure is yours!</p>
-            <p>View Score</p>
+            {{ story.score = story.getNumTotalActions(); }}
+            <p>Score = {{ story.score;}}</p>
             {{ story.endGame();}}
         </page>
 
